@@ -1,12 +1,5 @@
 #pragma once
 
-#include <map>
-#include <string>
-#include <vector>
-#include <sstream>
-#include <fstream>
-#include <utility>
-
 enum FaceType 
 {
 	geo,		// a
@@ -18,13 +11,17 @@ class ObjReader
 {
 private:
 	ifstream file;
+
+	vector<Mesh*> meshes;
+	Mesh* mesh;
+
+	vector<Material*> materials;
+	Material* material;
+
 	vector<Float3> verts;
 	vector<Float3> norms;
 	vector<Float3> UVs;
-	vector<Triangle> tris;
-	Material currentMaterial;
 	string currentGroup;
-	map<string, Float3*> groups;
 
 	int ReadLine();
 	int ReadVerticle();
@@ -39,6 +36,5 @@ private:
 
 public:
 	ObjReader();
-	ObjReader(const ObjReader& p);
-	Mesh loadMesh(string path);
+	vector<Mesh*> ObjReader::loadMesh(string path);
 };

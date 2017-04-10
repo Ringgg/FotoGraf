@@ -1,6 +1,11 @@
 #pragma once
 
+typedef bitmap_image Texture;
+
 struct Material
 {
-	LightIntensity color;
+	string name;
+	Color ambient, diffuse, specular;
+	uint16_t shininess;					
+	Texture texture;
 };

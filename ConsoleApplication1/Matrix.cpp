@@ -2,7 +2,7 @@
 #include "Matrix.h"
 
 
-Matrix::Matrix(float _initial) {
+Matrix::Matrix(double _initial) {
 	
 	for (unsigned i = 0; i<16; i++)
 	{
@@ -46,22 +46,22 @@ Matrix Matrix::transpose()
 	return Matrix();
 }
 
-Matrix Matrix::operator+(const float rhs)
+Matrix Matrix::operator+(const double rhs)
 {
 	return Matrix();
 }
 
-Matrix Matrix::operator-(const float rhs)
+Matrix Matrix::operator-(const double rhs)
 {
 	return Matrix();
 }
 
-Matrix Matrix::operator*(const float rhs)
+Matrix Matrix::operator*(const double rhs)
 {
 	return Matrix();
 }
 
-Matrix Matrix::operator/(const float rhs)
+Matrix Matrix::operator/(const double rhs)
 {
 	return Matrix();
 }

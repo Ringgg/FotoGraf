@@ -8,13 +8,14 @@ public:
 
 	Scene* scene;
 	int sizeX, sizeY;
+	double invSizeX, invSizeY;
 	Float3 position;
-	LightIntensity backgroundColor;
+	Color backgroundColor;
 
 	virtual void Render(bitmap_image& img) = 0;
 	void Init(Scene& s) { scene = &s; }
 
 protected:
-	virtual void RenderPixel(float x, float y, bitmap_image& image) = 0;
+	virtual void RenderPixel(double x, double y, bitmap_image& image) = 0;
 };
 

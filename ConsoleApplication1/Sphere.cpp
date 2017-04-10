@@ -3,14 +3,17 @@
 
 Sphere::~Sphere() { }
 Sphere::Sphere() { }
-Sphere::Sphere(Float3 position, float radius) : Shape(position), r(radius) { }
+Sphere::Sphere(Float3 position, double radius) : Shape(position), r(radius) { }
 
 bool Sphere::IntersectsWith(Ray& ray, HitInfo & info)
 {
-	static float t0, t1, tca, thc, d2;
+	static double t0, t1, tca, thc, d2;
 	static Float3 L;
 
 	L = pos - ray.origin;
+
+	if (L.LengthSquared() < r * r) return false; //ray inside sphere
+
 	tca = Linear::Dot(L, ray.direction);
 	d2 = Linear::Dot(L, L) - tca * tca;
 
@@ -32,6 +35,7 @@ bool Sphere::IntersectsWith(Ray& ray, HitInfo & info)
 	info.d = t0;
 	info.p = ray.origin + ray.direction * t0;
 	info.n = (info.p - pos).Normalized();
+	info.objHit = this;
 
 	return true;
 }

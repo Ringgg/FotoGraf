@@ -1,10 +1,12 @@
 #pragma once
-struct Plane
+struct Plane : public Shape
 {
 	Float3 normal;
-	float distance;
+	double distance;
 
 	~Plane();
-	Plane(Float3 norm = Float3(0,1,0), float dist = 0);
+	Plane(Float3 norm = Float3(0,1,0), double dist = 0);
+
+	bool IntersectsWith(Ray& ray, HitInfo& info);
 };
 

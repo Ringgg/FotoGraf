@@ -1,6 +1,8 @@
 #pragma once
 struct Mesh : Shape
 {
+	string name;
+
 	vector<Triangle> tris;
 
 	Mesh();

@@ -8,5 +8,5 @@ struct Shape
 	virtual bool IntersectsWith(Ray& ray, HitInfo& info) = 0;
 
 	Float3 pos;
-	Material material;
+	Material* material;
 };

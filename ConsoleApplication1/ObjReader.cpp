@@ -2,18 +2,12 @@
 #include "ObjReader.h"
 
 ObjReader::ObjReader() { }
-ObjReader::ObjReader(const ObjReader &p) 
-{
-	verts = p.verts;
-	norms = p.norms;
-	UVs = p.UVs;
-	tris = p.tris;
-	currentMaterial = p.currentMaterial;
-	currentGroup = p.currentGroup;
-}
 
-Mesh ObjReader::loadMesh(string path)
+vector<Mesh*> ObjReader::loadMesh(string path)
 {
+	meshes.clear();
+	materials.clear();
+
 	file.open(path, ios::in);
 
 	while (!file.eof())
@@ -25,7 +19,7 @@ Mesh ObjReader::loadMesh(string path)
 		}
 	}
 
-	return Mesh(tris);
+	return meshes;
 }
 
 int ObjReader::ReadLine()
@@ -36,8 +30,8 @@ int ObjReader::ReadLine()
 	if (file.eof()) return 0;
 	else if (type == "#") { getline(file, type); return 0; }
 	else if (type == "v") return ReadVerticle();
-	else if (type == "vt") return ReadNormal();
-	else if (type == "vn") return ReadTexture();
+	else if (type == "vt") return ReadTexture();
+	else if (type == "vn") return ReadNormal();
 	else if (type == "g") return ReadGroup();
 	else if (type == "f") return ReadFace();
 	else if (type == "mtlib") return ReadMatFile();
@@ -65,14 +59,16 @@ int ObjReader::ReadNormal()
 int ObjReader::ReadTexture()
 {
 	static Float3 point;
-	file >> point.x >> point.y >> point.z;
+	file >> point.x >> point.y;
 	UVs.push_back(point);
 	return 0;
 }
 
 int ObjReader::ReadGroup()
 {
-	getline(file, currentGroup);
+	mesh = new Mesh();
+	meshes.push_back(mesh);
+	getline(file, mesh->name);
 	return 0;
 }
 
@@ -110,17 +106,50 @@ int ObjReader::ReadFace()
 		}
 	}
 
-	tris.push_back(
-		Triangle(
+	if (fs == geo || fs == geoNor)
+	{
+		mesh->tris.push_back(Triangle(
 			verts[vIndexes[0] - 1],
 			verts[vIndexes[1] - 1],
 			verts[vIndexes[2] - 1]));
+	}
+	else if (fs == geoTexNor)
+	{
+		mesh->tris.push_back(Triangle(
+			verts[vIndexes[0] - 1],
+			verts[vIndexes[1] - 1],
+			verts[vIndexes[2] - 1],
+			UVs[tIndexes[0] - 1],
+			UVs[tIndexes[1] - 1],
+			UVs[tIndexes[2] - 1]));
+	}
 
 	return 0;
 }
 
 int ObjReader::ReadMatFile() { return 0; }
-int ObjReader::ReadUseMaterial() { return 0; }
+int ObjReader::ReadUseMaterial()
+{
+	string name;
+	file >> name;
+
+	for (int i = 0; i < materials.size();++i)
+	{
+		if (materials[i]->name == name)
+		{
+			material = materials[i];
+			break;
+		}
+	}
+
+	material = new Material();
+	materials.push_back(material);
+	material->name = name;
+	material->texture.load_bitmap(name + ".bmp");
+	mesh->material = material;
+
+	return 0;
+}
 
 FaceType ObjReader::GetFaceType(string& s)
 {

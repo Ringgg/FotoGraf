@@ -2,10 +2,10 @@
 struct Matrix
 {
 protected:
-	float data[4][4];
+	double data[4][4];
 
 public:
-	Matrix(float _initial = 0);
+	Matrix(double _initial = 0);
 
 	// Matrix mathematical operations
 	void operator+=(const Matrix& rhs);
@@ -17,13 +17,13 @@ public:
 	Matrix  transpose ();
 
 	// Matrix/scalar operations
-	Matrix operator+(const float rhs);
-	Matrix operator-(const float rhs);
-	Matrix operator*(const float rhs);
-	Matrix operator/(const float rhs);
+	Matrix operator+(const double rhs);
+	Matrix operator-(const double rhs);
+	Matrix operator*(const double rhs);
+	Matrix operator/(const double rhs);
 
 	friend Float3 operator*(const Matrix lhs, const Float3 rhs);
 
-	float* operator[](int x) { return data[x]; }
+	double* operator[](int x) { return data[x]; }
 };
 

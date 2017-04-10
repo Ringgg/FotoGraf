@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Structures">
       <UniqueIdentifier>{035203ad-3a8a-491c-8deb-f384acc5f5d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Lights">
-      <UniqueIdentifier>{d95b2e37-d616-4220-b631-81a9f6e76090}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Cameras">
       <UniqueIdentifier>{ec0f0463-ea72-4d18-8688-c89fff67a7c6}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Libs">
       <UniqueIdentifier>{8b16c6e2-a219-4704-8970-3a88a9b8d648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Lights">
+      <UniqueIdentifier>{d95b2e37-d616-4220-b631-81a9f6e76090}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +68,6 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="LightIntensity.h">
-      <Filter>Header Files\Lights</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Header Files\Objects</Filter>
@@ -102,6 +99,21 @@
     <ClInclude Include="ObjReader.h">
       <Filter>Libs</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="LightPoint.h">
+      <Filter>Header Files\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="TexMap.h">
+      <Filter>Libs</Filter>
+    </ClInclude>
+    <ClInclude Include="PhongColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -127,9 +139,6 @@
     </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\Structures</Filter>
-    </ClCompile>
-    <ClCompile Include="LightIntensity.cpp">
-      <Filter>Source Files\Lights</Filter>
     </ClCompile>
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -160,6 +169,21 @@
     </ClCompile>
     <ClCompile Include="ObjReader.cpp">
       <Filter>Libs</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="LightPoint.cpp">
+      <Filter>Source Files\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="TexMap.cpp">
+      <Filter>Libs</Filter>
+    </ClCompile>
+    <ClCompile Include="PhongColor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

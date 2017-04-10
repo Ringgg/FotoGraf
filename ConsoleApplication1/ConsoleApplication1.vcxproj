@@ -146,12 +146,15 @@
     <ClInclude Include="CameraOrtho.h" />
     <ClInclude Include="CameraPersp.h" />
     <ClInclude Include="HitInfo.h" />
-    <ClInclude Include="LightIntensity.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="LightPoint.h" />
     <ClInclude Include="Linear.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="ObjReader.h" />
+    <ClInclude Include="PhongColor.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="Scene.h" />
@@ -159,6 +162,7 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Float3.h" />
+    <ClInclude Include="TexMap.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -166,13 +170,16 @@
     <ClCompile Include="CameraOrtho.cpp" />
     <ClCompile Include="CameraPersp.cpp" />
     <ClCompile Include="HitInfo.cpp" />
-    <ClCompile Include="LightIntensity.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="LightPoint.cpp" />
     <ClCompile Include="Linear.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="ObjReader.cpp" />
+    <ClCompile Include="PhongColor.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -185,6 +192,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Float3.cpp" />
+    <ClCompile Include="TexMap.cpp" />
     <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

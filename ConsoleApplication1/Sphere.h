@@ -1,11 +1,11 @@
 #pragma once
 struct Sphere : public Shape
 {
-	float r;
+	double r;
 
 	~Sphere();
 	Sphere();
-	Sphere(Float3 position, float radius);
+	Sphere(Float3 position, double radius);
 
 	bool IntersectsWith(Ray& ray, HitInfo& info);
 };
