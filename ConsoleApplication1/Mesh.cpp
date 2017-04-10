@@ -11,6 +11,7 @@ bool Mesh::IntersectsWith(Ray & ray, HitInfo & info)
 		if (Linear::Intersects(ray, tris[i], info))
 		{
 			info.objHit = this;
+			info.triHit = &tris[i];
 			return true;
 		}
 	}

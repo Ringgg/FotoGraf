@@ -39,6 +39,11 @@ void Color::operator-=(Color & li)
 	ClampValues();
 }
 
+void Color::operator*=(Color & li)
+{
+	r *= li.r; g *= li.g; b *= li.b;
+}
+
 void Color::operator*=(double num)
 {
 	r *= num; g *= num; b *= num;

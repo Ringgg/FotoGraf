@@ -30,6 +30,6 @@ bool LightPoint::IsInShadow(Float3 pt, vector<Shape*>& shapes)
 	static Ray r;
 
 	fromPt2Me = pt - position;
-	Ray r(position, fromPt2Me, fromPt2Me.Length() - 1E-6);
+	r = Ray(position, fromPt2Me, fromPt2Me.Length() - 1E-6);
 	return Linear::Raycast(r, shapes, nothing);
 }

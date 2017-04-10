@@ -36,6 +36,7 @@ bool Sphere::IntersectsWith(Ray& ray, HitInfo & info)
 	info.p = ray.origin + ray.direction * t0;
 	info.n = (info.p - pos).Normalized();
 	info.objHit = this;
+	info.triHit = 0;
 
 	return true;
 }

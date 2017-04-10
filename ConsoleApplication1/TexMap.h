@@ -2,6 +2,8 @@
 class TexMap
 {
 public:
+
+	// spherical mapping
 	inline static Float3 GetTextureCoords(Float3& hit)
 	{
 		static double theta, phi, u, v;
@@ -14,8 +16,11 @@ public:
 
 		result.y = phi * 0.159154; // u
 		result.x = 1.0 - theta * 0.318309; // v
+
+		return result;
 	};
 
+	// bugged
 	inline static Float3 GetTextureCoords(Float3& hit, Triangle& t)
 	{
 		static double invDetT, r1, r2, r3;

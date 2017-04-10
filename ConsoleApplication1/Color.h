@@ -20,6 +20,7 @@ struct Color
 	Color operator/(double num);
 	void operator+=(Color &li);
 	void operator-=(Color &li);
+	void operator*=(Color &li);
 	void operator*=(double num);
 	void operator/=(double num);
 	friend Color operator*(double num, Color &li);

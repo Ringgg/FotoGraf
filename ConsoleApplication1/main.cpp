@@ -142,17 +142,37 @@ void TextureTest()
 	ObjReader reader;
 
 	Mesh* m = reader.loadMesh("CubeTex.obj")[0];
-
+	m->material->shininess = 1;
+	m->material->ambient = Color(0.1, 0.1, 0.1);
 	m->material->diffuse = Color(1, 1, 1);
 	m->material->specular = Color(1, 1, 1);
 
-	LightPoint lp(Float3(1.1, 4, -2), Color(0.5, 0.5, 0.5));
+	Plane* p = new Plane();
+	p->material = new Material();
+	p->material->shininess = 2;
+	p->material->ambient = Color(0.1, 0.1, 0.1);
+	p->material->diffuse = Color(0.5, 0.5, 0.5);
+	p->material->specular = Color(1, 1, 1);
+
+	Sphere* sp = new Sphere(Float3(), 0.5);
+	sp->material = new Material();
+	sp->material->texture.load_bitmap("CubeMat.bmp");
+	sp->material->shininess = 2;
+	sp->material->ambient = Color(0.1, 0.1, 0.1);
+	sp->material->diffuse = Color(0.25, 0.25, 0.25);
+	sp->material->specular = Color(1, 1, 1);
+
+	LightPoint* lp1 = new LightPoint(Float3(1.1, 4, -2), Color(0.5, 0.5, 0.5));
+	LightPoint* lp2 = new LightPoint(Float3(-1.1, 4, 2), Color(0.2, 0.1, 0.1));
 	Scene s;
 
 	s.shapes.push_back(m);
-	s.lights.push_back(&lp);
+	s.shapes.push_back(p);
+	s.shapes.push_back(sp);
+	s.lights.push_back(lp1);
+	s.lights.push_back(lp2);
 
-	s.camera = new CameraPersp(200, 200, 60, 0.1, 1000, Float3(-1.5, 2.5, -1.5), Float3(0.5, -0.5, 0.5), Float3(0, 1, 0));
+	s.camera = new CameraPersp(1000, 1000, 60, 0.1, 1000, Float3(-1.5, 2.5, -1.5), Float3(0.5, -0.5, 0.5), Float3(0, 1, 0));
 	s.camera->Init(s);
 
 	s.Render("imgLightTest.bmp");

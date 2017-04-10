@@ -53,26 +53,57 @@ Color CameraPersp::TestColor(Ray & ray)
 	
 	if (!Linear::Raycast(ray, scene->shapes, hit))
 		return backgroundColor;
+	
+	if (hit.objHit->material != 0)
+	{
+		baseColor.ambient = hit.objHit->material->ambient;
+		baseColor.diffuse = hit.objHit->material->diffuse;
+		baseColor.specular= hit.objHit->material->specular;
 
-	static Triangle test;
-	test = Triangle(
-		Float3(0,0,0), Float3(4,0,0), Float3(0,4,0), 
-		Float3(0,0,0), Float3(1,0,0), Float3(0,1,0));
+		if (hit.triHit != 0)
+		{
+			// texture mapping
+			texUV =
+				hit.triHit->UVx * hit.uvw.x +
+				hit.triHit->UVy * hit.uvw.y +
+				hit.triHit->UVz * hit.uvw.z;
 
-	// texture mapping
-	texUV = TexMap::GetTextureCoords(hit.p, test); // todo: find triangle hit
-	texUV.x = fmod(texUV.x, 1);
-	texUV.y = fmod(texUV.y, 1);
-	texUV.z = fmod(texUV.z, 1);
+			texX = (int)((hit.objHit->material->texture.width() - 1)*texUV.x);
+			texY = (int)((hit.objHit->material->texture.height() - 1)*texUV.y);
+			hit.objHit->material->texture.get_pixel(texX, texY, tmpColor.diffuse);
+			hit.objHit->material->texture.get_pixel(texX, texY, tmpColor.specular);
+			hit.objHit->material->texture.get_pixel(texX, texY, tmpColor.ambient);
+			baseColor.ambient *= tmpColor.ambient;
+			baseColor.diffuse *= tmpColor.diffuse;
+			baseColor.specular *= tmpColor.specular;
+		}
+		else if (typeid(*hit.objHit) == typeid(Sphere))
+		{
+			texUV = TexMap::GetTextureCoords(hit.p - hit.objHit->pos) * 4;
+			texUV.x = fmod(texUV.x, 1);
+			texUV.y = fmod(texUV.y, 1);
+			texUV.z = fmod(texUV.z, 1);
 
-	texX = (int)((hit.objHit->material->texture.width() - 1)*texUV.x);
-	texY = (int)((hit.objHit->material->texture.height()- 1)*texUV.y);
-	hit.objHit->material->texture.get_pixel(texX, texY, baseColor.diffuse);
-	hit.objHit->material->texture.get_pixel(texX, texY, baseColor.specular);
+			texX = (int)((hit.objHit->material->texture.width() - 1)*texUV.x);
+			texY = (int)((hit.objHit->material->texture.height() - 1)*texUV.y);
+			hit.objHit->material->texture.get_pixel(texX, texY, tmpColor.diffuse);
+			hit.objHit->material->texture.get_pixel(texX, texY, tmpColor.specular);
+			hit.objHit->material->texture.get_pixel(texX, texY, tmpColor.ambient);
+			baseColor.ambient *= tmpColor.ambient;
+			baseColor.diffuse *= tmpColor.diffuse;
+			baseColor.specular *= tmpColor.specular;
+		}
+	}
+	else
+	{
+		baseColor.ambient = Color(0, 0, 0);
+		baseColor.diffuse = Color(1, 1, 1);
+		baseColor.specular= Color(1, 1, 1);
+	}
 
-	result.ambient = hit.objHit->material->ambient;
-	result.diffuse *= 0;
-	result.specular *= 0;
+	result.ambient = baseColor.ambient;
+	result.diffuse = Color(0, 0, 0);
+	result.specular= Color(0, 0, 0);
 
 	//light calculation
 	for (int i = 0; i < scene->lights.size(); ++i)

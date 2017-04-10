@@ -116,23 +116,30 @@ bool Linear::Intersects(Ray& r, Plane& p, HitInfo & info)
 
 bool Linear::Intersects(Ray& r, Triangle& t, HitInfo& info)
 {
-	static double denom;
-	static Float3 fx, fy, fz;
+	static float  invArea, denom;
+	Float3 N;
 
 	denom = Dot(t.n, r.direction);
-	if (denom > 1e-6F) return false;					 // ray pararell to plane, opposite, or wrong side
-
-	info.d = Dot(t.n * Linear::Dot(t.x, t.n) - r.origin, t.n) / denom;
-	if (info.d > r.distace) return false;				 // ray is too short
-
+	if (denom > -1e-6) return false; // ray parallel
+	info.d = Dot(t.n * Dot(t.x, t.n) - r.origin, t.n) / denom;
+	if (info.d < 0 || info.d > r.distace) return false; // ray behind or too short
 	info.p = r.origin + r.direction * info.d;
-	fx = t.x - info.p; fy = t.y - info.p; fz = t.z - info.p;
-	if(Dot(Cross(fx, fy), t.n)< -1e-6F) return false; // triangle missed
-	if(Dot(Cross(fy, fz), t.n)< -1e-6F) return false; // triangle missed
-	if(Dot(Cross(fz, fx), t.n)< -1e-6F) return false; // triangle missed
+
+	N = Cross(t.y - t.x, t.z - t.x);
+	if ((Dot(N, Cross(t.y - t.x, info.p - t.x))) < 0) return false; // miss
+	if ((info.uvw.x = Dot(N, Cross(t.z - t.y, info.p - t.y))) < 0)  return false; // miss 
+	if ((info.uvw.y = Dot(N, Cross(t.x - t.z, info.p - t.z))) < 0) return false; // miss
+	
+	invArea = 1.0 / Dot(N, N); 
+	info.uvw.x *= invArea;
+	info.uvw.y *= invArea;
+	info.uvw.z  = 1 - info.uvw.x - info.uvw.y;
 	info.n = t.n;
-	return true;
+
+	return true; // ray hits triangle
 }
+
+
 
 bool Linear::Raycast(Ray & r, vector<Shape*>& shapes, HitInfo & info)
 {
@@ -144,3 +151,23 @@ bool Linear::Raycast(Ray & r, vector<Shape*>& shapes, HitInfo & info)
 				info = cur;
 	return info.d < r.distace;
 }
+
+//bool Linear::Intersects(Ray& r, Triangle& t, HitInfo& info)
+//{
+//	static double denom;
+//	static Float3 fx, fy, fz;
+//
+//	denom = Dot(t.n, r.direction);
+//	if (denom > 1e-6F) return false;					 // ray pararell to plane, opposite, or wrong side
+//
+//	info.d = Dot(t.n * Dot(t.x, t.n) - r.origin, t.n) / denom;
+//	if (info.d > r.distace) return false;				 // ray is too short
+//
+//	info.p = r.origin + r.direction * info.d;
+//	fx = t.x - info.p; fy = t.y - info.p; fz = t.z - info.p;
+//	if (Dot(Cross(fx, fy), t.n)< -1e-6F) return false; // triangle missed
+//	if (Dot(Cross(fy, fz), t.n)< -1e-6F) return false; // triangle missed
+//	if (Dot(Cross(fz, fx), t.n)< -1e-6F) return false; // triangle missed
+//	info.n = t.n;
+//	return true;
+//}

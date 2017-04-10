@@ -21,6 +21,7 @@ bool Plane::IntersectsWith(Ray & ray, HitInfo & info)
 	info.p = ray.origin + ray.direction * info.d;
 	info.n = normal;
 	info.objHit = this;
+	info.triHit = 0;
 
 	return info.d >= 0 && info.d <= ray.distace; // other cases
 }
